@@ -140,6 +140,21 @@
     }
 
     /* Kalendář zabere celou výšku levého sloupce a při přetečení se scrolluje uvnitř karty */
+    /* Pravý sloupec: karty se nesmí smrsknout do sebe, mezi nimi je větší mezera */
+    .right-stack {
+      gap: 18px;
+    }
+
+    .right-stack .card {
+      flex-shrink: 0;
+    }
+
+    /* Počasí vyplní zbytek výšky sloupce a obsah se rovnoměrně rozloží */
+    .right-stack .weather-card {
+      flex: 1 1 auto;
+      justify-content: space-between;
+    }
+
     .calendar-card {
       flex: 1 1 auto;
       min-height: 0;
@@ -651,7 +666,7 @@
         <div class="next-list" id="next-pickups"></div>
       </div>
 
-      <div class="card">
+      <div class="card weather-card">
         <div class="card-header-row">
           <div class="card-title">Počasí a oblečení</div>
           <div class="loc-switcher" role="group" aria-label="Výběr lokality">
@@ -1458,21 +1473,20 @@
           </div>
         `;
       } else {
-        const upcoming = SKO_DATES_2026.filter(d => d > todayIso).slice(0, 1);
-        const nextText = upcoming.length ? `Další svoz: ${formatCzechDate(upcoming[0])}` : "Kalendář pro rok 2026 končí.";
         banner.className = "trash-box calm";
         banner.innerHTML = `
           <div class="trash-emoji">✅</div>
           <div>
             <div class="trash-tag">Dnes i zítra klid</div>
             <div class="trash-heading">Dnes ani zítra svoz SKO není</div>
-            <div class="trash-detail">${nextText}</div>
+            <div class="trash-detail">Nic není potřeba vytahovat.</div>
           </div>
         `;
       }
 
       const nextListEl = document.getElementById("next-pickups");
-      const futureDates = SKO_DATES_2026.filter(d => d >= todayIso).slice(0, 3);
+      // Zobrazuje se jen nejbližší budoucí svoz (celý seznam termínů zůstává v SKO_DATES_2026)
+      const futureDates = SKO_DATES_2026.filter(d => d > todayIso).slice(0, 1);
 
       if (futureDates.length === 0) {
         nextListEl.innerHTML = `<div class="next-item"><span class="next-date">Pro rok 2026 už nejsou další termíny</span></div>`;
