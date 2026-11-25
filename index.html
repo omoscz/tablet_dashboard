@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dolní Pohleď – Chytrý přehled</title>
+  <style>
+    :root {
+      --bg: #eef2f6;
+      --card: #ffffff;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --accent: #0284c7;
+      --accent-soft: #e0f2fe;
+      --warn-bg: #fffbeb;
+      --warn-border: #f59e0b;
+      --warn-text: #78350f;
+      --ok-bg: #f0fdf4;
+      --ok-border: #86efac;
+      --ok-text: #14532d;
+      --shadow: 0 6px 24px rgba(15, 23, 42, 0.06);
+      --radius: 22px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text-main);
+      min-height: 100vh;
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 4px 8px;
+      gap: 16px;
+    }
+
+    .place-date {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .date-line {
+      font-size: 1.75rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .sub-line {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .right-header {
+      text-align: right;
+    }
+
+    .clock {
+      font-size: 2.4rem;
+      font-weight: 800;
+      color: var(--accent);
+      font-variant-numeric: tabular-nums;
+      line-height: 1;
+    }
+
+    .sync-status {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .grid-main {
+      display: grid;
+      grid-template-columns: 1.3fr 1fr;
+      gap: 20px;
+      flex: 1;
+    }
+
+    @media (max-width: 820px) {
+      .grid-main {
+        grid-template-columns: 1fr;
+      }
+      .top-bar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .right-header {
+        text-align: left;
+      }
+    }
+
+    .card {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 22px 24px;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .card-title {
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: 700;
+      color: var(--text-muted);
+    }
+
+    .weather-hero {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .temp-big {
+      font-size: 3.6rem;
+      font-weight: 800;
+      line-height: 1;
+      letter-spacing: -0.04em;
+    }
+
+    .weather-meta {
+      margin-top: 8px;
+      font-size: 1rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    .weather-emoji {
+      font-size: 4rem;
+      line-height: 1;
+    }
+
+    .forecast-strip {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      background: #f8fafc;
+      border-radius: 16px;
+      padding: 12px;
+    }
+
+    .slot {
+      text-align: center;
+      padding: 6px 4px;
+      border-radius: 12px;
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+    }
+
+    .slot-time {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .slot-icon {
+      font-size: 1.35rem;
+      margin: 4px 0;
+    }
+
+    .slot-temp {
+      font-size: 1rem;
+      font-weight: 700;
+    }
+
+    .outfit-box {
+      background: var(--accent-soft);
+      border: 1px solid #bae6fd;
+      border-radius: 16px;
+      padding: 16px 18px;
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+    }
+
+    .outfit-emoji {
+      font-size: 1.8rem;
+      line-height: 1.1;
+    }
+
+    .outfit-label {
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #0369a1;
+      margin-bottom: 4px;
+    }
+
+    .outfit-text {
+      font-size: 1.08rem;
+      font-weight: 600;
+      color: #0f172a;
+      line-height: 1.38;
+    }
+
+    .right-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .trash-box {
+      border-radius: 16px;
+      padding: 18px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .trash-box.alert {
+      background: var(--warn-bg);
+      border: 2px solid var(--warn-border);
+      color: var(--warn-text);
+    }
+
+    .trash-box.calm {
+      background: var(--ok-bg);
+      border: 1.5px solid var(--ok-border);
+      color: var(--ok-text);
+    }
+
+    .trash-emoji {
+      font-size: 2.5rem;
+      line-height: 1;
+    }
+
+    .trash-tag {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 3px 8px;
+      border-radius: 99px;
+      margin-bottom: 6px;
+      background: rgba(217, 119, 6, 0.16);
+      color: #92400e;
+    }
+
+    .trash-box.calm .trash-tag {
+      background: rgba(22, 163, 74, 0.15);
+      color: #166534;
+    }
+
+    .trash-heading {
+      font-size: 1.25rem;
+      font-weight: 800;
+      line-height: 1.2;
+    }
+
+    .trash-detail {
+      font-size: 0.92rem;
+      margin-top: 4px;
+      opacity: 0.9;
+    }
+
+    .next-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .next-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #f8fafc;
+      padding: 10px 14px;
+      border-radius: 12px;
+      font-size: 0.95rem;
+    }
+
+    .next-date {
+      font-weight: 700;
+    }
+
+    .next-rel {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .footer-hint {
+      font-size: 0.76rem;
+      color: var(--text-muted);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="top-bar">
+    <div class="place-date">
+      <div class="date-line" id="date-line">Načítám datum...</div>
+      <div class="sub-line">Dolní Pohleď • Rodinný přehled v1</div>
+    </div>
+    <div class="right-header">
+      <div class="clock" id="clock">--:--</div>
+      <div class="sync-status" id="weather-status">Počasí: čekám na data...</div>
+    </div>
+  </div>
+
+  <div class="grid-main">
+    <!-- LEVÁ KARTA: CHYTRÉ POČASÍ -->
+    <div class="card">
+      <div>
+        <div class="card-title">Chytré počasí a oblečení</div>
+        <div class="weather-hero" style="margin-top: 14px;">
+          <div>
+            <div class="temp-big" id="temp-now">-- °C</div>
+            <div class="weather-meta" id="weather-summary">Stahování předpovědi pro Dolní Pohleď...</div>
+          </div>
+          <div class="weather-emoji" id="weather-emoji">🌤️</div>
+        </div>
+      </div>
+
+      <div class="forecast-strip" id="forecast-strip">
+        <div class="slot"><div class="slot-time">Dopoledne</div><div class="slot-icon">⏳</div><div class="slot-temp">--°</div></div>
+        <div class="slot"><div class="slot-time">13:00</div><div class="slot-icon">⏳</div><div class="slot-temp">--°</div></div>
+        <div class="slot"><div class="slot-time">15:00</div><div class="slot-icon">⏳</div><div class="slot-temp">--°</div></div>
+        <div class="slot"><div class="slot-time">Večer</div><div class="slot-icon">⏳</div><div class="slot-temp">--°</div></div>
+      </div>
+
+      <div class="outfit-box">
+        <div class="outfit-emoji" id="outfit-emoji">🧥</div>
+        <div>
+          <div class="outfit-label">Doporučení co na sebe</div>
+          <div class="outfit-text" id="outfit-text">Vyhodnocuji teploty teď a odpoledne...</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PRAVÝ SLOUPEC: SVOZ ODPADU SKO (DOLNÍ POHLEĎ 2026) -->
+    <div class="right-stack">
+      <div class="card">
+        <div class="card-title">Svoz odpadu SKO • Dolní Pohleď (2026)</div>
+        <div id="trash-banner" class="trash-box calm">
+          <div class="trash-emoji">🗑️</div>
+          <div>
+            <div class="trash-tag">Kontroluji termíny</div>
+            <div class="trash-heading">Načítám svozový kalendář...</div>
+            <div class="trash-detail">Sledujeme, zda je svoz dnes nebo zítra.</div>
+          </div>
+        </div>
+
+        <div>
+          <div class="card-title" style="margin-bottom: 8px;">Nejbližší termíny svozu SKO</div>
+          <div class="next-list" id="next-pickups"></div>
+        </div>
+
+        <div class="footer-hint">Zdroj: Svozový kalendář SKO pro rok 2026 (Dolní Pohleď – 26 svozů).</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Souřadnice: Dolní Pohleď (okres Kutná Hora)
+    const LAT = 49.708;
+    const LON = 15.276;
+
+    // Svozový kalendář SKO – Dolní Pohleď 2026 (26 svozů)
+    const SKO_DATES_2026 = [
+      "2026-01-09", "2026-01-23",
+      "2026-02-06", "2026-02-20",
+      "2026-03-06", "2026-03-20",
+      "2026-04-03", "2026-04-17",
+      "2026-05-01", "2026-05-15", "2026-05-29",
+      "2026-06-12", "2026-06-26",
+      "2026-07-10", "2026-07-24",
+      "2026-08-07", "2026-08-22",
+      "2026-09-04", "2026-09-18",
+      "2026-10-02", "2026-10-16", "2026-10-30",
+      "2026-11-13", "2026-11-27",
+      "2026-12-11", "2026-12-25"
+    ];
+
+    function pad2(n) {
+      return String(n).padStart(2, "0");
+    }
+
+    function toIsoDate(d) {
+      return `${d.getFullYear()}-${pad2(d.getMonth() + 1)}-${pad2(d.getDate())}`;
+    }
+
+    function formatCzechDate(isoStr) {
+      const [y, m, d] = isoStr.split("-").map(Number);
+      const dt = new Date(y, m - 1, d);
+      return dt.toLocaleDateString("cs-CZ", {
+        weekday: "short",
+        day: "numeric",
+        month: "long",
+        year: "numeric"
+      });
+    }
+
+    function updateClockAndHeader() {
+      const now = new Date();
+      document.getElementById("clock").textContent = `${pad2(now.getHours())}:${pad2(now.getMinutes())}`;
+      const formatted = now.toLocaleDateString("cs-CZ", {
+        weekday: "long",
+        day: "numeric",
+        month: "long",
+        year: "numeric"
+      });
+      document.getElementById("date-line").textContent =
+        formatted.charAt(0).toUpperCase() + formatted.slice(1);
+    }
+
+    function renderTrashStatus() {
+      const now = new Date();
+      const todayMidnight = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+      const tomorrowMidnight = new Date(todayMidnight);
+      tomorrowMidnight.setDate(tomorrowMidnight.getDate() + 1);
+
+      const todayIso = toIsoDate(todayMidnight);
+      const tomorrowIso = toIsoDate(tomorrowMidnight);
+
+      const banner = document.getElementById("trash-banner");
+      const isToday = SKO_DATES_2026.includes(todayIso);
+      const isTomorrow = SKO_DATES_2026.includes(tomorrowIso);
+
+      if (isToday) {
+        banner.className = "trash-box alert";
+        banner.innerHTML = `
+          <div class="trash-emoji">🚛</div>
+          <div>
+            <div class="trash-tag">Dnes svoz SKO</div>
+            <div class="trash-heading">Popelnice SKO se vyváží DNES!</div>
+            <div class="trash-detail">Pokud ještě není venku, rychle přistavit.</div>
+          </div>
+        `;
+      } else if (isTomorrow) {
+        banner.className = "trash-box alert";
+        banner.innerHTML = `
+          <div class="trash-emoji">🗑️</div>
+          <div>
+            <div class="trash-tag">Zítra svoz SKO</div>
+            <div class="trash-heading">Zítra se vyváží popelnice SKO!</div>
+            <div class="trash-detail">Nezapomenout večer vytáhnout před dům.</div>
+          </div>
+        `;
+      } else {
+        const upcoming = SKO_DATES_2026.filter(d => d > todayIso).slice(0, 1);
+        const nextText = upcoming.length ? `Další svoz: ${formatCzechDate(upcoming[0])}` : "Kalendář pro rok 2026 končí.";
+        banner.className = "trash-box calm";
+        banner.innerHTML = `
+          <div class="trash-emoji">✅</div>
+          <div>
+            <div class="trash-tag">Dnes i zítra klid</div>
+            <div class="trash-heading">Dnes ani zítra svoz SKO není</div>
+            <div class="trash-detail">${nextText}</div>
+          </div>
+        `;
+      }
+
+      const nextListEl = document.getElementById("next-pickups");
+      const futureDates = SKO_DATES_2026.filter(d => d >= todayIso).slice(0, 3);
+
+      if (futureDates.length === 0) {
+        nextListEl.innerHTML = `<div class="next-item"><span class="next-date">Pro rok 2026 už nejsou další termíny</span></div>`;
+        return;
+      }
+
+      nextListEl.innerHTML = futureDates.map(iso => {
+        const [y, m, d] = iso.split("-").map(Number);
+        const dt = new Date(y, m - 1, d);
+        const diffDays = Math.round((dt - todayMidnight) / (1000 * 60 * 60 * 24));
+        let rel = `za ${diffDays} dní`;
+        if (diffDays === 0) rel = "DNES";
+        else if (diffDays === 1) rel = "ZÍTRA";
+
+        return `
+          <div class="next-item">
+            <span class="next-date">${formatCzechDate(iso)}</span>
+            <span class="next-rel">${rel}</span>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function weatherCodeInfo(code, isRain) {
+      if (isRain || [51, 53, 55, 61, 63, 65, 80, 81, 82].includes(code)) {
+        return { icon: "🌧️", label: "Déšť / přeháňky" };
+      }
+      if ([71, 73, 75, 77, 85, 86].includes(code)) {
+        return { icon: "❄️", label: "Sněžení" };
+      }
+      if ([95, 96, 99].includes(code)) {
+        return { icon: "⛈️", label: "Bouřka" };
+      }
+      if ([1, 2].includes(code)) {
+        return { icon: "⛅", label: "Polojasno" };
+      }
+      if (code === 3 || [45, 48].includes(code)) {
+        return { icon: "☁️", label: "Zataženo / mlha" };
+      }
+      return { icon: "☀️", label: "Jasno" };
+    }
+
+    function buildOutfitAdvice(nowTemp, afternoonMax, afternoonRainProb, precipNow) {
+      const diff = afternoonMax - nowTemp;
+      const wet = precipNow > 0.1 || afternoonRainProb >= 45;
+      const rainSuffix = wet ? " A pozor na déšť – přibalit nepromokavou bundu / pláštěnku." : "";
+
+      if (nowTemp <= 0 && afternoonMax <= 3) {
+        return {
+          emoji: "☃️",
+          text: `Celý den mrzne až kolem nuly (teď ${nowTemp} °C, odpoledne max ${afternoonMax} °C). Plná zimní výbava, čepice, rukavice a teplé boty.${rainSuffix}`
+        };
+      }
+      if (nowTemp <= 4 && afternoonMax <= 8) {
+        return {
+          emoji: "🧥",
+          text: `Chladno – teď ${nowTemp} °C, odpoledne max ${afternoonMax} °C. Určitě zimní bundu a čepici (odpoledne už moc nepřitopí).${rainSuffix}`
+        };
+      }
+      if (diff >= 6 && afternoonMax >= 12) {
+        return {
+          emoji: "🧅",
+          text: `Velký rozdíl: teď je ${nowTemp} °C, ale odpoledne až ${afternoonMax} °C. Vrstvit (mikina/svetr + bunda, kterou odpoledne sundají).${rainSuffix}`
+        };
+      }
+      if (afternoonMax >= 16) {
+        return {
+          emoji: "👕",
+          text: `Příjemně teplo – teď ${nowTemp} °C, odpoledne až ${afternoonMax} °C. Stačí lehčí mikina nebo lehká bunda na ráno.${rainSuffix}`
+        };
+      }
+      return {
+        emoji: "🧣",
+        text: `Teď ${nowTemp} °C, odpoledne max ${afternoonMax} °C. Rozumná přechodová/zimní bunda podle pocitu chladu.${rainSuffix}`
+      };
+    }
+
+    async function loadWeather() {
+      const statusEl = document.getElementById("weather-status");
+      const url = `https://api.open-meteo.com/v1/forecast?latitude=${LAT}&longitude=${LON}&current=temperature_2m,precipitation,weather_code&hourly=temperature_2m,precipitation_probability,weather_code&timezone=Europe%2FPrague&forecast_days=1`;
+
+      try {
+        const res = await fetch(url);
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+
+        const nowTemp = Math.round(data.current.temperature_2m);
+        const precipNow = data.current.precipitation ?? 0;
+        const currCode = data.current.weather_code;
+
+        const times = data.hourly.time;
+        const temps = data.hourly.temperature_2m;
+        const rainProbs = data.hourly.precipitation_probability;
+        const codes = data.hourly.weather_code;
+
+        // Odpolední okno 13:00 - 16:00
+        let afternoonMax = -99;
+        let maxRainProb = 0;
+        for (let i = 0; i < times.length; i++) {
+          const hr = Number(times[i].slice(11, 13));
+          if (hr >= 13 && hr <= 16) {
+            if (temps[i] > afternoonMax) afternoonMax = temps[i];
+            if ((rainProbs[i] ?? 0) > maxRainProb) maxRainProb = rainProbs[i] ?? 0;
+          }
+        }
+        if (afternoonMax === -99) afternoonMax = Math.max(...temps);
+        afternoonMax = Math.round(afternoonMax);
+
+        const currInfo = weatherCodeInfo(currCode, precipNow > 0.1);
+        document.getElementById("temp-now").textContent = `${nowTemp} °C`;
+        document.getElementById("weather-emoji").textContent = currInfo.icon;
+        document.getElementById("weather-summary").innerHTML =
+          `${currInfo.label} • Odpoledne max <strong>${afternoonMax} °C</strong> • Pravděpodobnost srážek odpoledne: <strong>${maxRainProb}%</strong>`;
+
+        const pickHour = (targetHr) => {
+          const idx = times.findIndex(t => Number(t.slice(11, 13)) === targetHr);
+          if (idx === -1) return { label: `${pad2(targetHr)}:00`, icon: "—", temp: "--°" };
+          const info = weatherCodeInfo(codes[idx], (rainProbs[idx] ?? 0) >= 60);
+          return {
+            label: `${pad2(targetHr)}:00`,
+            icon: info.icon,
+            temp: `${Math.round(temps[idx])} °C`
+          };
+        };
+
+        const slots = [pickHour(9), pickHour(13), pickHour(15), pickHour(18)];
+        document.getElementById("forecast-strip").innerHTML = slots.map(s => `
+          <div class="slot">
+            <div class="slot-time">${s.label}</div>
+            <div class="slot-icon">${s.icon}</div>
+            <div class="slot-temp">${s.temp}</div>
+          </div>
+        `).join("");
+
+        const advice = buildOutfitAdvice(nowTemp, afternoonMax, maxRainProb, precipNow);
+        document.getElementById("outfit-emoji").textContent = advice.emoji;
+        document.getElementById("outfit-text").textContent = advice.text;
+
+        const now = new Date();
+        statusEl.textContent = `Aktualizováno v ${pad2(now.getHours())}:${pad2(now.getMinutes())} (Open-Meteo)`;
+      } catch (err) {
+        statusEl.textContent = `Chyba počasí (${err.message})`;
+        document.getElementById("weather-summary").textContent = "Nepodařilo se načíst data z Open-Meteo.";
+      }
+    }
+
+    updateClockAndHeader();
+    renderTrashStatus();
+    loadWeather();
+
+    setInterval(updateClockAndHeader, 1000);
+    setInterval(renderTrashStatus, 60 * 1000);
+    setInterval(loadWeather, 20 * 60 * 1000);
+  </script>
+</body>
+</html>
