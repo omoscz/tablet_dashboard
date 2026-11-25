@@ -50,7 +50,7 @@
     .place-date {
       display: flex;
       flex-direction: column;
-      gap: 2px;
+      gap: 3px;
     }
 
     .date-line {
@@ -63,6 +63,35 @@
       font-size: 0.95rem;
       color: var(--text-muted);
       font-weight: 500;
+    }
+
+    .namedays-strip {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px 12px;
+      margin-top: 4px;
+      font-size: 0.9rem;
+      color: var(--text-main);
+    }
+
+    .nd-badge {
+      background: var(--accent-soft);
+      color: #0369a1;
+      font-weight: 700;
+      padding: 2px 9px;
+      border-radius: 99px;
+      font-size: 0.82rem;
+    }
+
+    .nd-item {
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .nd-item strong {
+      color: var(--text-main);
+      font-weight: 700;
     }
 
     .right-header {
@@ -140,10 +169,46 @@
       color: var(--text-muted);
     }
 
+    .cal-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
     .cal-meta {
       font-size: 0.78rem;
       color: var(--text-muted);
       font-weight: 600;
+    }
+
+    .mode-switcher,
+    .loc-switcher {
+      display: inline-flex;
+      background: #f1f5f9;
+      padding: 3px;
+      border-radius: 10px;
+      gap: 2px;
+    }
+
+    .mode-btn,
+    .loc-btn {
+      border: none;
+      background: transparent;
+      padding: 5px 11px;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .mode-btn.active,
+    .loc-btn.active {
+      background: #ffffff;
+      color: var(--accent);
+      box-shadow: 0 1px 4px rgba(15, 23, 42, 0.1);
     }
 
     .cal-groups {
@@ -209,30 +274,126 @@
       font-size: 0.95rem;
     }
 
-    .loc-switcher {
-      display: inline-flex;
-      background: #f1f5f9;
-      padding: 3px;
-      border-radius: 10px;
-      gap: 2px;
+    /* Měsíční přehled */
+    .month-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 4px;
     }
 
-    .loc-btn {
-      border: none;
-      background: transparent;
-      padding: 5px 11px;
+    .month-title {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+
+    .month-nav {
+      display: inline-flex;
+      gap: 6px;
+    }
+
+    .month-nav-btn {
+      border: 1px solid #e2e8f0;
+      background: #ffffff;
+      color: var(--text-main);
+      font-weight: 700;
+      font-size: 0.85rem;
+      padding: 4px 10px;
       border-radius: 8px;
-      font-size: 0.8rem;
+      cursor: pointer;
+    }
+
+    .month-weekdays {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 6px;
+      text-align: center;
+      font-size: 0.75rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      padding-bottom: 2px;
+    }
+
+    .month-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 6px;
+    }
+
+    .m-cell {
+      min-height: 76px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 6px 7px;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      cursor: pointer;
+      transition: border-color 0.15s ease, background 0.15s ease;
+    }
+
+    .m-cell.outside {
+      opacity: 0.42;
+      background: #f1f5f9;
+    }
+
+    .m-cell.today {
+      border: 2px solid var(--accent);
+      background: #f0f9ff;
+    }
+
+    .m-cell.selected {
+      box-shadow: inset 0 0 0 1.5px var(--accent);
+    }
+
+    .m-day-num {
+      font-size: 0.85rem;
+      font-weight: 800;
+      color: var(--text-main);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .m-event-pill {
+      font-size: 0.72rem;
+      font-weight: 600;
+      line-height: 1.2;
+      background: var(--accent-soft);
+      color: #0369a1;
+      border-radius: 6px;
+      padding: 2px 5px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .m-more {
+      font-size: 0.7rem;
       font-weight: 700;
       color: var(--text-muted);
-      cursor: pointer;
-      transition: all 0.15s ease;
     }
 
-    .loc-btn.active {
-      background: #ffffff;
+    .month-detail-box {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .month-detail-title {
+      font-size: 0.85rem;
+      font-weight: 800;
       color: var(--accent);
-      box-shadow: 0 1px 4px rgba(15, 23, 42, 0.1);
+    }
+
+    .month-detail-item {
+      font-size: 0.9rem;
+      color: var(--text-main);
     }
 
     .weather-hero {
@@ -427,7 +588,8 @@
   <div class="top-bar">
     <div class="place-date">
       <div class="date-line" id="date-line">Načítám datum...</div>
-      <div class="sub-line">Dolní Pohleď • Rodinný přehled v1.2</div>
+      <div class="sub-line">Dolní Pohleď • Rodinný přehled v1.3</div>
+      <div class="namedays-strip" id="namedays-strip">Načítám svátky...</div>
     </div>
     <div class="right-header">
       <div class="clock" id="clock">--:--</div>
@@ -441,7 +603,13 @@
       <div class="card calendar-card">
         <div class="card-header-row">
           <div class="card-title">Kalendář • Rodina</div>
-          <div class="cal-meta" id="cal-status">Načítám události...</div>
+          <div class="cal-controls">
+            <div class="mode-switcher" role="group" aria-label="Režim kalendáře">
+              <button class="mode-btn active" id="btn-mode-week" onclick="setCalendarMode('week')">Týden</button>
+              <button class="mode-btn" id="btn-mode-month" onclick="setCalendarMode('month')">Měsíc</button>
+            </div>
+            <div class="cal-meta" id="cal-status">Načítám...</div>
+          </div>
         </div>
         <div id="calendar-content" class="cal-groups">
           <div class="cal-empty">Načítám události z kalendáře Rodina...</div>
@@ -522,7 +690,384 @@
       }
     };
 
+    // Český občanský kalendář svátků (klíč "MM-DD")
+    const NAMEDAYS_BY_MD = {
+      "01-01": "Nový rok",
+      "01-02": "Karina",
+      "01-03": "Radmila",
+      "01-04": "Diana",
+      "01-05": "Dalimil",
+      "01-06": "Tři králové",
+      "01-07": "Vilma",
+      "01-08": "Čestmír",
+      "01-09": "Vladan",
+      "01-10": "Břetislav",
+      "01-11": "Bohdana",
+      "01-12": "Pravoslav",
+      "01-13": "Edita",
+      "01-14": "Radovan",
+      "01-15": "Alice",
+      "01-16": "Ctirad",
+      "01-17": "Drahoslav",
+      "01-18": "Vladislav",
+      "01-19": "Doubravka",
+      "01-20": "Ilona",
+      "01-21": "Běla",
+      "01-22": "Slavomír",
+      "01-23": "Zdeněk",
+      "01-24": "Milena",
+      "01-25": "Miloš",
+      "01-26": "Zora",
+      "01-27": "Ingrid",
+      "01-28": "Otýlie",
+      "01-29": "Zdislava",
+      "01-30": "Robin",
+      "01-31": "Marika",
+      "02-01": "Hynek",
+      "02-02": "Nela",
+      "02-03": "Blažej",
+      "02-04": "Jarmila",
+      "02-05": "Dobromila",
+      "02-06": "Vanda",
+      "02-07": "Veronika",
+      "02-08": "Milada",
+      "02-09": "Apolena",
+      "02-10": "Mojmír",
+      "02-11": "Božena",
+      "02-12": "Slavěna",
+      "02-13": "Věnceslav",
+      "02-14": "Valentýn",
+      "02-15": "Jiřina",
+      "02-16": "Ljuba",
+      "02-17": "Miloslava",
+      "02-18": "Gizela",
+      "02-19": "Patrik",
+      "02-20": "Oldřich",
+      "02-21": "Lenka",
+      "02-22": "Petr",
+      "02-23": "Svatopluk",
+      "02-24": "Matěj",
+      "02-25": "Liliana",
+      "02-26": "Dorota",
+      "02-27": "Alexandr",
+      "02-28": "Lumír",
+      "02-29": "Horymír",
+      "03-01": "Bedřich",
+      "03-02": "Anežka",
+      "03-03": "Kamil",
+      "03-04": "Stela",
+      "03-05": "Kazimir",
+      "03-06": "Miroslav",
+      "03-07": "Tomáš",
+      "03-08": "Gabriela",
+      "03-09": "Františka",
+      "03-10": "Viktorie",
+      "03-11": "Anděla",
+      "03-12": "Řehoř",
+      "03-13": "Růžena",
+      "03-14": "Rút / Matylda",
+      "03-15": "Ida",
+      "03-16": "Elena",
+      "03-17": "Vlastimil",
+      "03-18": "Eduard",
+      "03-19": "Josef",
+      "03-20": "Světlana",
+      "03-21": "Radek",
+      "03-22": "Leona",
+      "03-23": "Ivona",
+      "03-24": "Gabriel",
+      "03-25": "Marián",
+      "03-26": "Emanuel",
+      "03-27": "Dita",
+      "03-28": "Soňa",
+      "03-29": "Taťána",
+      "03-30": "Arnošt",
+      "03-31": "Kvido",
+      "04-01": "Hugo",
+      "04-02": "Erika",
+      "04-03": "Richard",
+      "04-04": "Ivana",
+      "04-05": "Miloslava",
+      "04-06": "Vincenc",
+      "04-07": "Heřman / Hermína",
+      "04-08": "Ema",
+      "04-09": "Dušan",
+      "04-10": "Darja",
+      "04-11": "Izabela",
+      "04-12": "Julius",
+      "04-13": "Aleš",
+      "04-14": "Vincenc",
+      "04-15": "Anastázie",
+      "04-16": "Irena",
+      "04-17": "Rudolf",
+      "04-18": "Valérie",
+      "04-19": "Rostislav",
+      "04-20": "Marcela",
+      "04-21": "Alexandra",
+      "04-22": "Evženie",
+      "04-23": "Vojtěch",
+      "04-24": "Jiří",
+      "04-25": "Marek",
+      "04-26": "Oto",
+      "04-27": "Jaroslav",
+      "04-28": "Vlastislav",
+      "04-29": "Robert",
+      "04-30": "Blahoslav",
+      "05-01": "Svátek práce",
+      "05-02": "Zikmund",
+      "05-03": "Alexej",
+      "05-04": "Květoslav",
+      "05-05": "Klaudie",
+      "05-06": "Radoslav",
+      "05-07": "Stanislav",
+      "05-08": "Den vítězství",
+      "05-09": "Ctibor",
+      "05-10": "Blažena",
+      "05-11": "Svatava",
+      "05-12": "Pankrác",
+      "05-13": "Servác",
+      "05-14": "Bonifác",
+      "05-15": "Žofie",
+      "05-16": "Přemysl",
+      "05-17": "Aneta",
+      "05-18": "Nataša",
+      "05-19": "Ivo",
+      "05-20": "Zbyšek",
+      "05-21": "Monika",
+      "05-22": "Emil",
+      "05-23": "Vladimír",
+      "05-24": "Jana",
+      "05-25": "Viola",
+      "05-26": "Filip",
+      "05-27": "Valdemar",
+      "05-28": "Vilém",
+      "05-29": "Maxmilián",
+      "05-30": "Ferdinand",
+      "05-31": "Kamila",
+      "06-01": "Laura",
+      "06-02": "Jarmil",
+      "06-03": "Tamara",
+      "06-04": "Dalibor",
+      "06-05": "Dobroslav",
+      "06-06": "Norbert",
+      "06-07": "Iveta",
+      "06-08": "Medard",
+      "06-09": "Stanislava",
+      "06-10": "Gita",
+      "06-11": "Bruno",
+      "06-12": "Antonie",
+      "06-13": "Antonín",
+      "06-14": "Roland",
+      "06-15": "Vít",
+      "06-16": "Zbyněk",
+      "06-17": "Adolf",
+      "06-18": "Milan",
+      "06-19": "Leoš",
+      "06-20": "Květa",
+      "06-21": "Alois",
+      "06-22": "Pavla",
+      "06-23": "Zdeňka",
+      "06-24": "Jan",
+      "06-25": "Ivan",
+      "06-26": "Adriana",
+      "06-27": "Ladislav",
+      "06-28": "Lubomír",
+      "06-29": "Petr a Pavel",
+      "06-30": "Šárka",
+      "07-01": "Jaroslava",
+      "07-02": "Patricie",
+      "07-03": "Radomír",
+      "07-04": "Prokop",
+      "07-05": "Cyril a Metoděj",
+      "07-06": "Mistr Jan Hus",
+      "07-07": "Bohuslava",
+      "07-08": "Nora",
+      "07-09": "Drahoslava",
+      "07-10": "Libuše / Amálie",
+      "07-11": "Olga",
+      "07-12": "Bořek",
+      "07-13": "Markéta",
+      "07-14": "Karolína",
+      "07-15": "Jindřich",
+      "07-16": "Luboš",
+      "07-17": "Martina",
+      "07-18": "Drahomíra",
+      "07-19": "Čeněk",
+      "07-20": "Ilja",
+      "07-21": "Vítězslav",
+      "07-22": "Magdaléna",
+      "07-23": "Libor",
+      "07-24": "Kristýna",
+      "07-25": "Jakub",
+      "07-26": "Anna",
+      "07-27": "Věroslav",
+      "07-28": "Viktor",
+      "07-29": "Marta",
+      "07-30": "Bořivoj",
+      "07-31": "Ignác",
+      "08-01": "Oskar",
+      "08-02": "Gustav",
+      "08-03": "Miluše",
+      "08-04": "Dominik",
+      "08-05": "Kristián",
+      "08-06": "Oldřiška",
+      "08-07": "Lada",
+      "08-08": "Soběslav",
+      "08-09": "Roman",
+      "08-10": "Vavřinec",
+      "08-11": "Zuzana",
+      "08-12": "Klára",
+      "08-13": "Alena",
+      "08-14": "Alan",
+      "08-15": "Hana",
+      "08-16": "Jáchym",
+      "08-17": "Petra",
+      "08-18": "Helena",
+      "08-19": "Ludvík",
+      "08-20": "Bernard",
+      "08-21": "Johana",
+      "08-22": "Bohuslav",
+      "08-23": "Sandra",
+      "08-24": "Bartoloměj",
+      "08-25": "Radim",
+      "08-26": "Luděk",
+      "08-27": "Otakar",
+      "08-28": "Augustýn",
+      "08-29": "Evelína",
+      "08-30": "Vladěna",
+      "08-31": "Pavlína",
+      "09-01": "Samuel",
+      "09-02": "Adéla",
+      "09-03": "Bronislav",
+      "09-04": "Jindřiška",
+      "09-05": "Boris",
+      "09-06": "Boleslav",
+      "09-07": "Regína",
+      "09-08": "Mariana",
+      "09-09": "Daniela",
+      "09-10": "Irma",
+      "09-11": "Denisa",
+      "09-12": "Marie",
+      "09-13": "Lubor",
+      "09-14": "Radka",
+      "09-15": "Jolana",
+      "09-16": "Ludmila",
+      "09-17": "Naděžda",
+      "09-18": "Kryštof",
+      "09-19": "Zita",
+      "09-20": "Oleg",
+      "09-21": "Matouš",
+      "09-22": "Darina",
+      "09-23": "Berta",
+      "09-24": "Jaromír",
+      "09-25": "Zlata",
+      "09-26": "Andrea",
+      "09-27": "Jonáš",
+      "09-28": "Václav",
+      "09-29": "Michal",
+      "09-30": "Jeroným",
+      "10-01": "Igor",
+      "10-02": "Olivie / Oliver",
+      "10-03": "Bohumil",
+      "10-04": "František",
+      "10-05": "Eliška",
+      "10-06": "Hanuš",
+      "10-07": "Justýna",
+      "10-08": "Věra",
+      "10-09": "Štefan / Sára",
+      "10-10": "Marina",
+      "10-11": "Andrej",
+      "10-12": "Marcel",
+      "10-13": "Renata",
+      "10-14": "Agáta",
+      "10-15": "Tereza",
+      "10-16": "Havel",
+      "10-17": "Hedvika",
+      "10-18": "Lukáš",
+      "10-19": "Michaela",
+      "10-20": "Vendelín",
+      "10-21": "Brigita",
+      "10-22": "Sabina",
+      "10-23": "Teodor",
+      "10-24": "Nina",
+      "10-25": "Beáta",
+      "10-26": "Erik",
+      "10-27": "Šarlota / Zoe",
+      "10-28": "Den vzniku č. státu",
+      "10-29": "Silvie",
+      "10-30": "Tadeáš",
+      "10-31": "Štěpánka",
+      "11-01": "Felix",
+      "11-02": "Památka zesnulých",
+      "11-03": "Hubert",
+      "11-04": "Karel",
+      "11-05": "Miriam",
+      "11-06": "Liběna",
+      "11-07": "Saskie",
+      "11-08": "Bohumír",
+      "11-09": "Bohdan",
+      "11-10": "Evžen",
+      "11-11": "Martin",
+      "11-12": "Benedikt",
+      "11-13": "Tibor",
+      "11-14": "Sáva",
+      "11-15": "Leopold",
+      "11-16": "Otmar",
+      "11-17": "Mahuliena / Den boje za svobodu",
+      "11-18": "Romana",
+      "11-19": "Alžběta",
+      "11-20": "Nikola",
+      "11-21": "Albert",
+      "11-22": "Cecílie",
+      "11-23": "Klement",
+      "11-24": "Emílie",
+      "11-25": "Kateřina",
+      "11-26": "Artur",
+      "11-27": "Xenie",
+      "11-28": "René",
+      "11-29": "Zina",
+      "11-30": "Ondřej",
+      "12-01": "Iva",
+      "12-02": "Blanka",
+      "12-03": "Svatoslav",
+      "12-04": "Barbora",
+      "12-05": "Jitka",
+      "12-06": "Mikuláš",
+      "12-07": "Ambrož / Benjamín",
+      "12-08": "Květoslava",
+      "12-09": "Vratislav",
+      "12-10": "Julie",
+      "12-11": "Dana",
+      "12-12": "Simona",
+      "12-13": "Lucie",
+      "12-14": "Lýdie",
+      "12-15": "Radana",
+      "12-16": "Albína",
+      "12-17": "Daniel",
+      "12-18": "Miloslav",
+      "12-19": "Ester",
+      "12-20": "Dagmar",
+      "12-21": "Natálie",
+      "12-22": "Šimon",
+      "12-23": "Vlasta",
+      "12-24": "Adam a Eva",
+      "12-25": "Boží hod vánoční",
+      "12-26": "Štěpán",
+      "12-27": "Žaneta",
+      "12-28": "Bohumila",
+      "12-29": "Judita",
+      "12-30": "David",
+      "12-31": "Silvestr"
+    };
+
     let currentLocKey = "pohled";
+    let calendarMode = "week";
+    let cachedEvents = [];
+
+    const nowInit = new Date();
+    let viewYear = nowInit.getFullYear();
+    let viewMonth = nowInit.getMonth();
+    let selectedDayIso = null;
 
     // Svozový kalendář SKO – Dolní Pohleď 2026 (26 svozů)
     const SKO_DATES_2026 = [
@@ -546,6 +1091,10 @@
 
     function toIsoDate(d) {
       return `${d.getFullYear()}-${pad2(d.getMonth() + 1)}-${pad2(d.getDate())}`;
+    }
+
+    function toMdKey(d) {
+      return `${pad2(d.getMonth() + 1)}-${pad2(d.getDate())}`;
     }
 
     function formatCzechDate(isoStr) {
@@ -580,6 +1129,26 @@
         .replace(/"/g, "&quot;");
     }
 
+    function renderNamedays(now) {
+      const el = document.getElementById("namedays-strip");
+      const baseMidnight = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+      const labels = ["Dnes", "Zítra", "Pozítří", "Za 3 dny"];
+      const parts = [];
+
+      for (let offset = 0; offset < 4; offset++) {
+        const dt = new Date(baseMidnight);
+        dt.setDate(dt.getDate() + offset);
+        const name = NAMEDAYS_BY_MD[toMdKey(dt)] || "—";
+        if (offset === 0) {
+          parts.push(`<span class="nd-badge">Svátek dnes: ${escapeHtml(name)}</span>`);
+        } else {
+          parts.push(`<span class="nd-item">${labels[offset]}: <strong>${escapeHtml(name)}</strong></span>`);
+        }
+      }
+
+      el.innerHTML = parts.join("");
+    }
+
     function updateClockAndHeader() {
       const now = new Date();
       document.getElementById("clock").textContent = `${pad2(now.getHours())}:${pad2(now.getMinutes())}`;
@@ -591,10 +1160,212 @@
       });
       document.getElementById("date-line").textContent =
         formatted.charAt(0).toUpperCase() + formatted.slice(1);
+      renderNamedays(now);
+    }
+
+    function setCalendarMode(mode) {
+      if (mode !== "week" && mode !== "month") return;
+      calendarMode = mode;
+      document.getElementById("btn-mode-week").classList.toggle("active", mode === "week");
+      document.getElementById("btn-mode-month").classList.toggle("active", mode === "month");
+      renderCalendarView();
+    }
+
+    function shiftMonth(delta) {
+      const dt = new Date(viewYear, viewMonth + delta, 1);
+      viewYear = dt.getFullYear();
+      viewMonth = dt.getMonth();
+      renderCalendarView();
+    }
+
+    function selectMonthDay(isoStr) {
+      selectedDayIso = isoStr;
+      renderCalendarView();
+    }
+
+    function normalizeEvents(rawEvents) {
+      const list = [];
+      for (const ev of rawEvents) {
+        const startDt = new Date(ev.start);
+        const endDt = new Date(ev.end);
+        if (Number.isNaN(startDt.getTime())) continue;
+
+        const dayIso = toIsoDate(startDt);
+        let timeLabel = "Celý den";
+        if (!ev.allDay) {
+          const sStr = `${pad2(startDt.getHours())}:${pad2(startDt.getMinutes())}`;
+          const eStr = Number.isNaN(endDt.getTime())
+            ? ""
+            : ` – ${pad2(endDt.getHours())}:${pad2(endDt.getMinutes())}`;
+          timeLabel = `${sStr}${eStr}`;
+        }
+
+        list.push({
+          dayIso,
+          startTs: startDt.getTime(),
+          title: ev.title || "(Bez názvu)",
+          location: ev.location || "",
+          timeLabel
+        });
+      }
+      list.sort((a, b) => a.startTs - b.startTs);
+      return list;
+    }
+
+    function renderWeekView(events, todayIso, tomorrowIso) {
+      const container = document.getElementById("calendar-content");
+      const grouped = new Map();
+
+      for (const ev of events) {
+        if (!grouped.has(ev.dayIso)) grouped.set(ev.dayIso, []);
+        grouped.get(ev.dayIso).push(ev);
+      }
+
+      const sortedDays = Array.from(grouped.keys()).sort();
+      if (sortedDays.length === 0) {
+        container.innerHTML = `<div class="cal-empty">V nejbližších dnech nejsou v kalendáři Rodina žádné události.</div>`;
+        return;
+      }
+
+      container.innerHTML = sortedDays.map(dayIso => {
+        const items = grouped.get(dayIso);
+        const isToday = dayIso === todayIso;
+        const heading = formatDayHeading(dayIso, todayIso, tomorrowIso);
+
+        const eventsHtml = items.map(item => `
+          <div class="cal-event">
+            <div class="cal-time">${escapeHtml(item.timeLabel)}</div>
+            <div>
+              <div class="cal-title">${escapeHtml(item.title)}</div>
+              ${item.location ? `<div class="cal-loc">📍 ${escapeHtml(item.location)}</div>` : ""}
+            </div>
+          </div>
+        `).join("");
+
+        return `
+          <div>
+            <div class="cal-day-label ${isToday ? "today" : ""}">${isToday ? "● " : ""}${escapeHtml(heading)}</div>
+            <div class="cal-events">${eventsHtml}</div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function renderMonthView(events, todayIso) {
+      const container = document.getElementById("calendar-content");
+      const eventsByDay = new Map();
+      for (const ev of events) {
+        if (!eventsByDay.has(ev.dayIso)) eventsByDay.set(ev.dayIso, []);
+        eventsByDay.get(ev.dayIso).push(ev);
+      }
+
+      const firstOfMonth = new Date(viewYear, viewMonth, 1);
+      const lastOfMonth = new Date(viewYear, viewMonth + 1, 0);
+
+      // Pondělí = 0 ... Neděle = 6
+      const startWeekday = (firstOfMonth.getDay() + 6) % 7;
+      const daysInMonth = lastOfMonth.getDate();
+
+      const monthLabelRaw = firstOfMonth.toLocaleDateString("cs-CZ", {
+        month: "long",
+        year: "numeric"
+      });
+      const monthLabel = monthLabelRaw.charAt(0).toUpperCase() + monthLabelRaw.slice(1);
+
+      const activeDetailIso = selectedDayIso || todayIso;
+      const detailEvents = eventsByDay.get(activeDetailIso) || [];
+
+      const cells = [];
+
+      // Předchozí měsíc
+      const prevMonthLastDay = new Date(viewYear, viewMonth, 0).getDate();
+      for (let i = startWeekday - 1; i >= 0; i--) {
+        const dNum = prevMonthLastDay - i;
+        const dt = new Date(viewYear, viewMonth - 1, dNum);
+        const iso = toIsoDate(dt);
+        cells.push({ iso, dayNum: dNum, outside: true, items: eventsByDay.get(iso) || [] });
+      }
+
+      // Aktuální měsíc
+      for (let dNum = 1; dNum <= daysInMonth; dNum++) {
+        const dt = new Date(viewYear, viewMonth, dNum);
+        const iso = toIsoDate(dt);
+        cells.push({ iso, dayNum: dNum, outside: false, items: eventsByDay.get(iso) || [] });
+      }
+
+      // Doplnění do celých řádků po 7 dnech
+      const remainder = cells.length % 7;
+      if (remainder !== 0) {
+        const fillCount = 7 - remainder;
+        for (let dNum = 1; dNum <= fillCount; dNum++) {
+          const dt = new Date(viewYear, viewMonth + 1, dNum);
+          const iso = toIsoDate(dt);
+          cells.push({ iso, dayNum: dNum, outside: true, items: eventsByDay.get(iso) || [] });
+        }
+      }
+
+      const cellsHtml = cells.map(c => {
+        const isToday = c.iso === todayIso;
+        const isSelected = c.iso === activeDetailIso;
+        const maxVisible = 2;
+        const pills = c.items.slice(0, maxVisible).map(ev =>
+          `<div class="m-event-pill">${escapeHtml(ev.title)}</div>`
+        ).join("");
+        const extra = c.items.length > maxVisible
+          ? `<div class="m-more">+${c.items.length - maxVisible} další</div>`
+          : "";
+
+        return `
+          <div class="m-cell ${c.outside ? "outside" : ""} ${isToday ? "today" : ""} ${isSelected ? "selected" : ""}" onclick="selectMonthDay('${c.iso}')">
+            <div class="m-day-num">${c.dayNum}</div>
+            ${pills}
+            ${extra}
+          </div>
+        `;
+      }).join("");
+
+      const detailItemsHtml = detailEvents.length
+        ? detailEvents.map(ev =>
+            `<div class="month-detail-item">• <strong>${escapeHtml(ev.timeLabel)}</strong> – ${escapeHtml(ev.title)}${ev.location ? ` (${escapeHtml(ev.location)})` : ""}</div>`
+          ).join("")
+        : `<div class="month-detail-item" style="color: var(--text-muted);">Žádné načtené události pro tento den.</div>`;
+
+      container.innerHTML = `
+        <div class="month-header">
+          <div class="month-title">${escapeHtml(monthLabel)}</div>
+          <div class="month-nav">
+            <button class="month-nav-btn" onclick="shiftMonth(-1)">◀</button>
+            <button class="month-nav-btn" onclick="shiftMonth(1)">▶</button>
+          </div>
+        </div>
+        <div class="month-weekdays">
+          <div>Po</div><div>Út</div><div>St</div><div>Čt</div><div>Pá</div><div>So</div><div>Ne</div>
+        </div>
+        <div class="month-grid">${cellsHtml}</div>
+        <div class="month-detail-box">
+          <div class="month-detail-title">Vybraný den: ${escapeHtml(formatCzechDate(activeDetailIso))}</div>
+          ${detailItemsHtml}
+        </div>
+      `;
+    }
+
+    function renderCalendarView() {
+      const now = new Date();
+      const todayMidnight = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+      const tomorrowMidnight = new Date(todayMidnight);
+      tomorrowMidnight.setDate(tomorrowMidnight.getDate() + 1);
+
+      const todayIso = toIsoDate(todayMidnight);
+      const tomorrowIso = toIsoDate(tomorrowMidnight);
+
+      if (calendarMode === "month") {
+        renderMonthView(cachedEvents, todayIso);
+      } else {
+        renderWeekView(cachedEvents, todayIso, tomorrowIso);
+      }
     }
 
     async function loadCalendar() {
-      const container = document.getElementById("calendar-content");
       const statusEl = document.getElementById("cal-status");
 
       try {
@@ -606,74 +1377,18 @@
           throw new Error(data.error);
         }
 
-        const events = Array.isArray(data.events) ? data.events : [];
+        const rawEvents = Array.isArray(data.events) ? data.events : [];
+        cachedEvents = normalizeEvents(rawEvents);
+        renderCalendarView();
+
         const now = new Date();
-        const todayMidnight = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-        const tomorrowMidnight = new Date(todayMidnight);
-        tomorrowMidnight.setDate(tomorrowMidnight.getDate() + 1);
-
-        const todayIso = toIsoDate(todayMidnight);
-        const tomorrowIso = toIsoDate(tomorrowMidnight);
-
-        const grouped = new Map();
-
-        for (const ev of events) {
-          const startDt = new Date(ev.start);
-          const endDt = new Date(ev.end);
-          if (Number.isNaN(startDt.getTime())) continue;
-
-          const dayIso = toIsoDate(startDt);
-          if (!grouped.has(dayIso)) grouped.set(dayIso, []);
-
-          let timeLabel = "Celý den";
-          if (!ev.allDay) {
-            const sStr = `${pad2(startDt.getHours())}:${pad2(startDt.getMinutes())}`;
-            const eStr = Number.isNaN(endDt.getTime())
-              ? ""
-              : ` – ${pad2(endDt.getHours())}:${pad2(endDt.getMinutes())}`;
-            timeLabel = `${sStr}${eStr}`;
-          }
-
-          grouped.get(dayIso).push({
-            title: ev.title || "(Bez názvu)",
-            location: ev.location || "",
-            timeLabel
-          });
-        }
-
-        const sortedDays = Array.from(grouped.keys()).sort();
-
-        if (sortedDays.length === 0) {
-          container.innerHTML = `<div class="cal-empty">V nejbližších dnech nejsou v kalendáři Rodina žádné události.</div>`;
-        } else {
-          container.innerHTML = sortedDays.map(dayIso => {
-            const items = grouped.get(dayIso);
-            const isToday = dayIso === todayIso;
-            const heading = formatDayHeading(dayIso, todayIso, tomorrowIso);
-
-            const eventsHtml = items.map(item => `
-              <div class="cal-event">
-                <div class="cal-time">${escapeHtml(item.timeLabel)}</div>
-                <div>
-                  <div class="cal-title">${escapeHtml(item.title)}</div>
-                  ${item.location ? `<div class="cal-loc">📍 ${escapeHtml(item.location)}</div>` : ""}
-                </div>
-              </div>
-            `).join("");
-
-            return `
-              <div>
-                <div class="cal-day-label ${isToday ? "today" : ""}">${isToday ? "● " : ""}${escapeHtml(heading)}</div>
-                <div class="cal-events">${eventsHtml}</div>
-              </div>
-            `;
-          }).join("");
-        }
-
         statusEl.textContent = `Sync ${pad2(now.getHours())}:${pad2(now.getMinutes())}`;
       } catch (err) {
         statusEl.textContent = "Chyba syncu";
-        container.innerHTML = `<div class="cal-empty">Nepodařilo se načíst kalendář Rodina (${escapeHtml(err.message)}). Zkontroluj oprávnění Web App v Apps Scriptu.</div>`;
+        if (cachedEvents.length === 0) {
+          document.getElementById("calendar-content").innerHTML =
+            `<div class="cal-empty">Nepodařilo se načíst kalendář Rodina (${escapeHtml(err.message)}).</div>`;
+        }
       }
     }
 
@@ -884,6 +1599,7 @@
 
     updateClockAndHeader();
     renderTrashStatus();
+    renderCalendarView();
     loadWeather();
     loadCalendar();
 
