@@ -594,6 +594,28 @@
       font-weight: 600;
     }
 
+    /* Kompatibilita se starším Android WebView (kiosk): "gap" u flexboxu tam nefunguje,
+       proto jsou mezery řešené i pomocí margin. Grid gap funguje, ten se nemění. */
+    body > * + * { margin-top: 12px; }
+    .place-date > * + * { margin-top: 4px; }
+    .namedays-strip > * { margin: 2px 16px 2px 0; }
+    .right-stack > * + * { margin-top: 18px; }
+    .card > * + * { margin-top: 10px; }
+    .card-header-row > * + * { margin-left: 10px; }
+    .cal-controls > * + * { margin-left: 10px; }
+    .mode-switcher > * + *,
+    .loc-switcher > * + * { margin-left: 2px; }
+    .cal-groups > * + * { margin-top: 12px; }
+    .cal-events > * + * { margin-top: 6px; }
+    .cal-event > * + * { margin-left: 12px; }
+    .month-nav > * + * { margin-left: 8px; }
+    .m-cell > * + * { margin-top: 2px; }
+    .month-detail-box > * + * { margin-top: 5px; }
+    .weather-hero > * + * { margin-left: 12px; }
+    .outfit-box > * + * { margin-left: 12px; }
+    .trash-box > * + * { margin-left: 12px; }
+    .next-list > * + * { margin-top: 5px; }
+
     /* Úzká obrazovka (telefon / tablet na výšku): sloupce pod sebe a povolí se scroll */
     @media (max-width: 760px) {
       body {
@@ -1640,8 +1662,7 @@
     loadWeather();
     loadCalendar();
 
-    setInterval(updateClockAndHeader, 1000);
-    setInterval(renderTrashStatus, 60 * 1000);
+    setInterval(updateClockAndHeader, 1000);    setInterval(renderTrashStatus, 60 * 1000);
     setInterval(loadWeather, 20 * 60 * 1000);
     setInterval(loadCalendar, 15 * 60 * 1000);
   </script>
