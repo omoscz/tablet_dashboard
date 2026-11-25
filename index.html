@@ -68,11 +68,9 @@
     }
 
     .namedays-strip {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 4px 14px;
+      display: block;
       font-size: 0.95rem;
+      line-height: 1.7;
       color: var(--text-main);
     }
 
@@ -147,6 +145,7 @@
 
     .right-stack .card {
       flex-shrink: 0;
+      border: 1px solid #d5dde8;
     }
 
     /* Počasí vyplní zbytek výšky sloupce a obsah se rovnoměrně rozloží */
@@ -598,7 +597,7 @@
        proto jsou mezery řešené i pomocí margin. Grid gap funguje, ten se nemění. */
     body > * + * { margin-top: 12px; }
     .place-date > * + * { margin-top: 4px; }
-    .namedays-strip > * { margin: 2px 16px 2px 0; }
+    .namedays-strip > * { display: inline-block; margin: 0 18px 0 0; }
     .right-stack > * + * { margin-top: 18px; }
     .card > * + * { margin-top: 10px; }
     .card-header-row > * + * { margin-left: 10px; }
