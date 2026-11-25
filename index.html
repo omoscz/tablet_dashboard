@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+code = """<!DOCTYPE html>
 <html lang="cs">
 <head>
   <meta charset="UTF-8" />
@@ -114,6 +114,14 @@
       gap: 16px;
     }
 
+    .card-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
     .card-title {
       font-size: 0.85rem;
       text-transform: uppercase;
@@ -122,11 +130,47 @@
       color: var(--text-muted);
     }
 
+    .loc-switcher {
+      display: inline-flex;
+      background: #f1f5f9;
+      padding: 3px;
+      border-radius: 10px;
+      gap: 2px;
+    }
+
+    .loc-btn {
+      border: none;
+      background: transparent;
+      padding: 5px 11px;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .loc-btn.active {
+      background: #ffffff;
+      color: var(--accent);
+      box-shadow: 0 1px 4px rgba(15, 23, 42, 0.1);
+    }
+
     .weather-hero {
       display: flex;
       justify-content: space-between;
       align-items: center;
       gap: 12px;
+    }
+
+    .weather-place-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 6px;
     }
 
     .temp-big {
@@ -310,7 +354,7 @@
   <div class="top-bar">
     <div class="place-date">
       <div class="date-line" id="date-line">Načítám datum...</div>
-      <div class="sub-line">Dolní Pohleď • Rodinný přehled v1</div>
+      <div class="sub-line">Dolní Pohleď • Rodinný přehled v1.1</div>
     </div>
     <div class="right-header">
       <div class="clock" id="clock">--:--</div>
@@ -322,21 +366,29 @@
     <!-- LEVÁ KARTA: CHYTRÉ POČASÍ -->
     <div class="card">
       <div>
-        <div class="card-title">Chytré počasí a oblečení</div>
+        <div class="card-header-row">
+          <div class="card-title">Chytré počasí a oblečení</div>
+          <div class="loc-switcher" role="group" aria-label="Výběr lokality">
+            <button class="loc-btn active" id="btn-pohled" onclick="selectLocation('pohled')">Dolní Pohleď</button>
+            <button class="loc-btn" id="btn-zruc" onclick="selectLocation('zruc')">Zruč n. S.</button>
+          </div>
+        </div>
+
         <div class="weather-hero" style="margin-top: 14px;">
           <div>
+            <div class="weather-place-badge" id="weather-place-label">📍 Počasí pro: Dolní Pohleď</div>
             <div class="temp-big" id="temp-now">-- °C</div>
-            <div class="weather-meta" id="weather-summary">Stahování předpovědi pro Dolní Pohleď...</div>
+            <div class="weather-meta" id="weather-summary">Stahování předpovědi...</div>
           </div>
           <div class="weather-emoji" id="weather-emoji">🌤️</div>
         </div>
       </div>
 
       <div class="forecast-strip" id="forecast-strip">
-        <div class="slot"><div class="slot-time">Dopoledne</div><div class="slot-icon">⏳</div><div class="slot-temp">--°</div></div>
+        <div class="slot"><div class="slot-time">09:00</div><div class="slot-icon">⏳</div><div class="slot-temp">--°</div></div>
         <div class="slot"><div class="slot-time">13:00</div><div class="slot-icon">⏳</div><div class="slot-temp">--°</div></div>
         <div class="slot"><div class="slot-time">15:00</div><div class="slot-icon">⏳</div><div class="slot-temp">--°</div></div>
-        <div class="slot"><div class="slot-time">Večer</div><div class="slot-icon">⏳</div><div class="slot-temp">--°</div></div>
+        <div class="slot"><div class="slot-time">18:00</div><div class="slot-icon">⏳</div><div class="slot-temp">--°</div></div>
       </div>
 
       <div class="outfit-box">
@@ -372,9 +424,20 @@
   </div>
 
   <script>
-    // Souřadnice: Dolní Pohleď (okres Kutná Hora)
-    const LAT = 49.708;
-    const LON = 15.276;
+    const LOCATIONS = {
+      pohled: {
+        name: "Dolní Pohleď",
+        lat: 49.708,
+        lon: 15.276
+      },
+      zruc: {
+        name: "Zruč nad Sázavou",
+        lat: 49.744,
+        lon: 15.103
+      }
+    };
+
+    let currentLocKey = "pohled";
 
     // Svozový kalendář SKO – Dolní Pohleď 2026 (26 svozů)
     const SKO_DATES_2026 = [
@@ -422,6 +485,15 @@
       });
       document.getElementById("date-line").textContent =
         formatted.charAt(0).toUpperCase() + formatted.slice(1);
+    }
+
+    function selectLocation(key) {
+      if (!LOCATIONS[key]) return;
+      currentLocKey = key;
+      document.getElementById("btn-pohled").classList.toggle("active", key === "pohled");
+      document.getElementById("btn-zruc").classList.toggle("active", key === "zruc");
+      document.getElementById("weather-place-label").textContent = `📍 Počasí pro: ${LOCATIONS[key].name}`;
+      loadWeather();
     }
 
     function renderTrashStatus() {
@@ -551,8 +623,9 @@
     }
 
     async function loadWeather() {
+      const loc = LOCATIONS[currentLocKey];
       const statusEl = document.getElementById("weather-status");
-      const url = `https://api.open-meteo.com/v1/forecast?latitude=${LAT}&longitude=${LON}&current=temperature_2m,precipitation,weather_code&hourly=temperature_2m,precipitation_probability,weather_code&timezone=Europe%2FPrague&forecast_days=1`;
+      const url = `https://api.open-meteo.com/v1/forecast?latitude=${loc.lat}&longitude=${loc.lon}&current=temperature_2m,precipitation,weather_code&hourly=temperature_2m,precipitation_probability,weather_code&timezone=Europe%2FPrague&forecast_days=1`;
 
       try {
         const res = await fetch(url);
@@ -568,7 +641,6 @@
         const rainProbs = data.hourly.precipitation_probability;
         const codes = data.hourly.weather_code;
 
-        // Odpolední okno 13:00 - 16:00
         let afternoonMax = -99;
         let maxRainProb = 0;
         for (let i = 0; i < times.length; i++) {
@@ -582,6 +654,7 @@
         afternoonMax = Math.round(afternoonMax);
 
         const currInfo = weatherCodeInfo(currCode, precipNow > 0.1);
+        document.getElementById("weather-place-label").textContent = `📍 Počasí pro: ${loc.name}`;
         document.getElementById("temp-now").textContent = `${nowTemp} °C`;
         document.getElementById("weather-emoji").textContent = currInfo.icon;
         document.getElementById("weather-summary").innerHTML =
@@ -612,7 +685,7 @@
         document.getElementById("outfit-text").textContent = advice.text;
 
         const now = new Date();
-        statusEl.textContent = `Aktualizováno v ${pad2(now.getHours())}:${pad2(now.getMinutes())} (Open-Meteo)`;
+        statusEl.textContent = `${loc.name} • Aktualizováno v ${pad2(now.getHours())}:${pad2(now.getMinutes())}`;
       } catch (err) {
         statusEl.textContent = `Chyba počasí (${err.message})`;
         document.getElementById("weather-summary").textContent = "Nepodařilo se načíst data z Open-Meteo.";
@@ -629,3 +702,9 @@
   </script>
 </body>
 </html>
+"""
+
+with open("index.html", "w", encoding="utf-8") as f:
+    f.write(code)
+
+print("Updated index.html")
