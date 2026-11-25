@@ -688,7 +688,7 @@
   </div>
 
   <script>
-    const CALENDAR_EXEC_URL = "https://script.google.com/macros/s/AKfycbxYpsPZMvKxBWBwfxE6AAEYuWtk6vP_i1gscHLCFKi0DT-R3AxBPmwPhAvX9J2LxS0z/exec";
+    const CALENDAR_EXEC_URL = "https://script.google.com/macros/s/AKfycbyl1vWUADms80p2VVQRcJSAvCeSKrtNPT5aT2mcq2m8mg9Wwh_nFxPlTamK6SmT-Mk/exec";
 
     const LOCATIONS = {
       pohled: {
@@ -1073,6 +1073,9 @@
       "12-31": "Silvestr"
     };
 
+    // Kolik dní (včetně dneška) ukazuje týdenní pohled kalendáře
+    const WEEK_VIEW_DAYS = 7;
+
     let currentLocKey = "pohled";
     let calendarMode = "week";
     let cachedEvents = [];
@@ -1229,7 +1232,14 @@
       const container = document.getElementById("calendar-content");
       const grouped = new Map();
 
+      // Týdenní pohled ukazuje jen dnešek + dalších 6 dní (celkem WEEK_VIEW_DAYS),
+      // i když skript posílá události na dva měsíce dopředu.
+      const [ty, tm, td] = todayIso.split("-").map(Number);
+      const limitDate = new Date(ty, tm - 1, td + WEEK_VIEW_DAYS);
+      const limitIso = toIsoDate(limitDate);
+
       for (const ev of events) {
+        if (ev.dayIso < todayIso || ev.dayIso >= limitIso) continue;
         if (!grouped.has(ev.dayIso)) grouped.set(ev.dayIso, []);
         grouped.get(ev.dayIso).push(ev);
       }
