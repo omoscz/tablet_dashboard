@@ -598,7 +598,24 @@
     body > * + * { margin-top: 12px; }
     .place-date > * + * { margin-top: 4px; }
     .namedays-strip > * { display: inline-block; margin: 0 18px 0 0; }
-    .right-stack > * + * { margin-top: 18px; }
+    .right-stack > * + * { margin-top: 12px; }
+
+    /* Pravý sloupec: úspornější rozměry, aby se vešlo i celé doporučení co na sebe;
+       kdyby se přesto nevešlo, sloupec jde posunout prstem */
+    .right-stack {
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .right-stack::-webkit-scrollbar { display: none; }
+    .right-stack .card { padding: 10px 16px; }
+    .right-stack .card > * + * { margin-top: 7px; }
+    .weather-place-badge { display: none; }
+    .temp-big { font-size: 2.3rem; }
+    .weather-emoji { font-size: 2.4rem; }
+    .weather-meta { margin-top: 2px; font-size: 0.85rem; }
+    .outfit-text { font-size: 0.88rem; }
+    .trash-heading { font-size: 1rem; }
     .card > * + * { margin-top: 10px; }
     .card-header-row > * + * { margin-left: 10px; }
     .cal-controls > * + * { margin-left: 10px; }
@@ -1621,7 +1638,7 @@
         document.getElementById("temp-now").textContent = `${nowTemp} °C`;
         document.getElementById("weather-emoji").textContent = currInfo.icon;
         document.getElementById("weather-summary").innerHTML =
-          `${currInfo.label} • Odpoledne max <strong>${afternoonMax} °C</strong> • Srážky odpoledne: <strong>${maxRainProb}%</strong>`;
+          `${currInfo.label} • Odpoledne max <strong>${afternoonMax} °C</strong> • Srážky: <strong>${maxRainProb}%</strong>`;
 
         const pickHour = (targetHr) => {
           const idx = times.findIndex(t => Number(t.slice(11, 13)) === targetHr);
