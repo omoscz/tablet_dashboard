@@ -85,12 +85,12 @@
 
     .grid-main {
       display: grid;
-      grid-template-columns: 1.3fr 1fr;
+      grid-template-columns: 1.25fr 1fr;
       gap: 20px;
       flex: 1;
     }
 
-    @media (max-width: 820px) {
+    @media (max-width: 860px) {
       .grid-main {
         grid-template-columns: 1fr;
       }
@@ -103,15 +103,25 @@
       }
     }
 
+    .left-stack,
+    .right-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
     .card {
       background: var(--card);
       border-radius: var(--radius);
-      padding: 22px 24px;
+      padding: 20px 22px;
       box-shadow: var(--shadow);
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
-      gap: 16px;
+      gap: 14px;
+    }
+
+    .calendar-card {
+      flex: 1;
     }
 
     .card-header-row {
@@ -128,6 +138,75 @@
       letter-spacing: 0.08em;
       font-weight: 700;
       color: var(--text-muted);
+    }
+
+    .cal-meta {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .cal-groups {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .cal-day-label {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      font-weight: 800;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
+    .cal-day-label.today {
+      color: var(--accent);
+    }
+
+    .cal-events {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .cal-event {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      background: #f8fafc;
+      border-left: 4px solid var(--accent);
+      border-radius: 12px;
+      padding: 10px 14px;
+    }
+
+    .cal-time {
+      font-size: 0.9rem;
+      font-weight: 700;
+      min-width: 96px;
+      color: var(--text-main);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .cal-title {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    .cal-loc {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .cal-empty {
+      background: #f8fafc;
+      border-radius: 14px;
+      padding: 16px;
+      color: var(--text-muted);
+      font-size: 0.95rem;
     }
 
     .loc-switcher {
@@ -170,96 +249,90 @@
       font-size: 0.9rem;
       font-weight: 700;
       color: var(--accent);
-      margin-bottom: 6px;
+      margin-bottom: 4px;
     }
 
     .temp-big {
-      font-size: 3.6rem;
+      font-size: 3.3rem;
       font-weight: 800;
       line-height: 1;
       letter-spacing: -0.04em;
     }
 
     .weather-meta {
-      margin-top: 8px;
-      font-size: 1rem;
+      margin-top: 6px;
+      font-size: 0.96rem;
       color: var(--text-muted);
-      line-height: 1.4;
+      line-height: 1.35;
     }
 
     .weather-emoji {
-      font-size: 4rem;
+      font-size: 3.6rem;
       line-height: 1;
     }
 
     .forecast-strip {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 10px;
+      gap: 8px;
       background: #f8fafc;
-      border-radius: 16px;
-      padding: 12px;
+      border-radius: 14px;
+      padding: 10px;
     }
 
     .slot {
       text-align: center;
       padding: 6px 4px;
-      border-radius: 12px;
+      border-radius: 10px;
       background: #ffffff;
       border: 1px solid #e2e8f0;
     }
 
     .slot-time {
-      font-size: 0.78rem;
+      font-size: 0.76rem;
       color: var(--text-muted);
       font-weight: 600;
     }
 
     .slot-icon {
-      font-size: 1.35rem;
-      margin: 4px 0;
+      font-size: 1.25rem;
+      margin: 3px 0;
     }
 
     .slot-temp {
-      font-size: 1rem;
+      font-size: 0.96rem;
       font-weight: 700;
     }
 
     .outfit-box {
       background: var(--accent-soft);
       border: 1px solid #bae6fd;
-      border-radius: 16px;
-      padding: 16px 18px;
+      border-radius: 14px;
+      padding: 14px 16px;
       display: flex;
       align-items: flex-start;
-      gap: 14px;
+      gap: 12px;
     }
 
     .outfit-emoji {
-      font-size: 1.8rem;
+      font-size: 1.6rem;
       line-height: 1.1;
     }
 
     .outfit-label {
-      font-size: 0.82rem;
+      font-size: 0.78rem;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.05em;
       color: #0369a1;
-      margin-bottom: 4px;
+      margin-bottom: 3px;
     }
 
     .outfit-text {
-      font-size: 1.08rem;
+      font-size: 1rem;
       font-weight: 600;
       color: #0f172a;
-      line-height: 1.38;
-    }
-
-    .right-stack {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
+      line-height: 1.35;
     }
 
     .trash-box {
@@ -354,7 +427,7 @@
   <div class="top-bar">
     <div class="place-date">
       <div class="date-line" id="date-line">Načítám datum...</div>
-      <div class="sub-line">Dolní Pohleď • Rodinný přehled v1.1</div>
+      <div class="sub-line">Dolní Pohleď • Rodinný přehled v1.2</div>
     </div>
     <div class="right-header">
       <div class="clock" id="clock">--:--</div>
@@ -363,9 +436,19 @@
   </div>
 
   <div class="grid-main">
-    <!-- LEVÁ KARTA: CHYTRÉ POČASÍ -->
-    <div class="card">
-      <div>
+    <!-- LEVÝ SLOUPEC: KALENDÁŘ RODINA + CHYTRÉ POČASÍ -->
+    <div class="left-stack">
+      <div class="card calendar-card">
+        <div class="card-header-row">
+          <div class="card-title">Kalendář • Rodina</div>
+          <div class="cal-meta" id="cal-status">Načítám události...</div>
+        </div>
+        <div id="calendar-content" class="cal-groups">
+          <div class="cal-empty">Načítám události z kalendáře Rodina...</div>
+        </div>
+      </div>
+
+      <div class="card">
         <div class="card-header-row">
           <div class="card-title">Chytré počasí a oblečení</div>
           <div class="loc-switcher" role="group" aria-label="Výběr lokality">
@@ -374,7 +457,7 @@
           </div>
         </div>
 
-        <div class="weather-hero" style="margin-top: 14px;">
+        <div class="weather-hero">
           <div>
             <div class="weather-place-badge" id="weather-place-label">📍 Počasí pro: Dolní Pohleď</div>
             <div class="temp-big" id="temp-now">-- °C</div>
@@ -382,20 +465,20 @@
           </div>
           <div class="weather-emoji" id="weather-emoji">🌤️</div>
         </div>
-      </div>
 
-      <div class="forecast-strip" id="forecast-strip">
-        <div class="slot"><div class="slot-time">09:00</div><div class="slot-icon">⏳</div><div class="slot-temp">--°</div></div>
-        <div class="slot"><div class="slot-time">13:00</div><div class="slot-icon">⏳</div><div class="slot-temp">--°</div></div>
-        <div class="slot"><div class="slot-time">15:00</div><div class="slot-icon">⏳</div><div class="slot-temp">--°</div></div>
-        <div class="slot"><div class="slot-time">18:00</div><div class="slot-icon">⏳</div><div class="slot-temp">--°</div></div>
-      </div>
+        <div class="forecast-strip" id="forecast-strip">
+          <div class="slot"><div class="slot-time">09:00</div><div class="slot-icon">⏳</div><div class="slot-temp">--°</div></div>
+          <div class="slot"><div class="slot-time">13:00</div><div class="slot-icon">⏳</div><div class="slot-temp">--°</div></div>
+          <div class="slot"><div class="slot-time">15:00</div><div class="slot-icon">⏳</div><div class="slot-temp">--°</div></div>
+          <div class="slot"><div class="slot-time">18:00</div><div class="slot-icon">⏳</div><div class="slot-temp">--°</div></div>
+        </div>
 
-      <div class="outfit-box">
-        <div class="outfit-emoji" id="outfit-emoji">🧥</div>
-        <div>
-          <div class="outfit-label">Doporučení co na sebe</div>
-          <div class="outfit-text" id="outfit-text">Vyhodnocuji teploty teď a odpoledne...</div>
+        <div class="outfit-box">
+          <div class="outfit-emoji" id="outfit-emoji">🧥</div>
+          <div>
+            <div class="outfit-label">Doporučení co na sebe</div>
+            <div class="outfit-text" id="outfit-text">Vyhodnocuji teploty teď a odpoledne...</div>
+          </div>
         </div>
       </div>
     </div>
@@ -424,6 +507,8 @@
   </div>
 
   <script>
+    const CALENDAR_EXEC_URL = "https://script.google.com/macros/s/AKfycbxYpsPZMvKxBWBwfxE6AAEYuWtk6vP_i1gscHLCFKi0DT-R3AxBPmwPhAvX9J2LxS0z/exec";
+
     const LOCATIONS = {
       pohled: {
         name: "Dolní Pohleď",
@@ -474,6 +559,27 @@
       });
     }
 
+    function formatDayHeading(isoStr, todayIso, tomorrowIso) {
+      if (isoStr === todayIso) return "Dnes";
+      if (isoStr === tomorrowIso) return "Zítra";
+      const [y, m, d] = isoStr.split("-").map(Number);
+      const dt = new Date(y, m - 1, d);
+      const txt = dt.toLocaleDateString("cs-CZ", {
+        weekday: "long",
+        day: "numeric",
+        month: "numeric"
+      });
+      return txt.charAt(0).toUpperCase() + txt.slice(1);
+    }
+
+    function escapeHtml(str) {
+      return String(str ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+    }
+
     function updateClockAndHeader() {
       const now = new Date();
       document.getElementById("clock").textContent = `${pad2(now.getHours())}:${pad2(now.getMinutes())}`;
@@ -485,6 +591,90 @@
       });
       document.getElementById("date-line").textContent =
         formatted.charAt(0).toUpperCase() + formatted.slice(1);
+    }
+
+    async function loadCalendar() {
+      const container = document.getElementById("calendar-content");
+      const statusEl = document.getElementById("cal-status");
+
+      try {
+        const res = await fetch(CALENDAR_EXEC_URL);
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+
+        if (data.error) {
+          throw new Error(data.error);
+        }
+
+        const events = Array.isArray(data.events) ? data.events : [];
+        const now = new Date();
+        const todayMidnight = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+        const tomorrowMidnight = new Date(todayMidnight);
+        tomorrowMidnight.setDate(tomorrowMidnight.getDate() + 1);
+
+        const todayIso = toIsoDate(todayMidnight);
+        const tomorrowIso = toIsoDate(tomorrowMidnight);
+
+        const grouped = new Map();
+
+        for (const ev of events) {
+          const startDt = new Date(ev.start);
+          const endDt = new Date(ev.end);
+          if (Number.isNaN(startDt.getTime())) continue;
+
+          const dayIso = toIsoDate(startDt);
+          if (!grouped.has(dayIso)) grouped.set(dayIso, []);
+
+          let timeLabel = "Celý den";
+          if (!ev.allDay) {
+            const sStr = `${pad2(startDt.getHours())}:${pad2(startDt.getMinutes())}`;
+            const eStr = Number.isNaN(endDt.getTime())
+              ? ""
+              : ` – ${pad2(endDt.getHours())}:${pad2(endDt.getMinutes())}`;
+            timeLabel = `${sStr}${eStr}`;
+          }
+
+          grouped.get(dayIso).push({
+            title: ev.title || "(Bez názvu)",
+            location: ev.location || "",
+            timeLabel
+          });
+        }
+
+        const sortedDays = Array.from(grouped.keys()).sort();
+
+        if (sortedDays.length === 0) {
+          container.innerHTML = `<div class="cal-empty">V nejbližších dnech nejsou v kalendáři Rodina žádné události.</div>`;
+        } else {
+          container.innerHTML = sortedDays.map(dayIso => {
+            const items = grouped.get(dayIso);
+            const isToday = dayIso === todayIso;
+            const heading = formatDayHeading(dayIso, todayIso, tomorrowIso);
+
+            const eventsHtml = items.map(item => `
+              <div class="cal-event">
+                <div class="cal-time">${escapeHtml(item.timeLabel)}</div>
+                <div>
+                  <div class="cal-title">${escapeHtml(item.title)}</div>
+                  ${item.location ? `<div class="cal-loc">📍 ${escapeHtml(item.location)}</div>` : ""}
+                </div>
+              </div>
+            `).join("");
+
+            return `
+              <div>
+                <div class="cal-day-label ${isToday ? "today" : ""}">${isToday ? "● " : ""}${escapeHtml(heading)}</div>
+                <div class="cal-events">${eventsHtml}</div>
+              </div>
+            `;
+          }).join("");
+        }
+
+        statusEl.textContent = `Sync ${pad2(now.getHours())}:${pad2(now.getMinutes())}`;
+      } catch (err) {
+        statusEl.textContent = "Chyba syncu";
+        container.innerHTML = `<div class="cal-empty">Nepodařilo se načíst kalendář Rodina (${escapeHtml(err.message)}). Zkontroluj oprávnění Web App v Apps Scriptu.</div>`;
+      }
     }
 
     function selectLocation(key) {
@@ -695,10 +885,12 @@
     updateClockAndHeader();
     renderTrashStatus();
     loadWeather();
+    loadCalendar();
 
     setInterval(updateClockAndHeader, 1000);
     setInterval(renderTrashStatus, 60 * 1000);
     setInterval(loadWeather, 20 * 60 * 1000);
+    setInterval(loadCalendar, 15 * 60 * 1000);
   </script>
 </body>
 </html>
